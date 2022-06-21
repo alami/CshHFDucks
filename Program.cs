@@ -8,6 +8,7 @@ namespace CshHFDucks
     {
         static void Main(string[] args)
         {
+goto next;
             List<Duck> ducks = new List<Duck>() {
                 new Duck() { Kind = KindOfDuck.Mallard, Size = 17 },
                 new Duck() { Kind = KindOfDuck.Muscovy, Size = 18 },
@@ -19,10 +20,51 @@ namespace CshHFDucks
             ducks.Sort();
             PrintDucks(ducks);
 
-            Console.WriteLine();
+            Console.WriteLine("\n-- Kovariantnost via IEnumerable<> -- ");
             //Bird.FlyAway(ducks, "Minnesota");
             IEnumerable<Bird> upcastDucks = ducks;
             Bird.FlyAway(upcastDucks.ToList(), "Minnesota");
+
+//next:
+            Console.WriteLine("\n-- Dictionary -- ");
+            Dictionary<string, Duck> duckIds = new Dictionary<string, Duck>();
+            duckIds.Add("first", new Duck() { Kind = KindOfDuck.Mallard, Size = 15 });
+            foreach (string key in duckIds.Keys)
+            {
+                Console.WriteLine($"{key}'s  is {duckIds[key].Kind}/{duckIds[key].Size}");
+            }
+
+            Dictionary<string, string> favoriteFoods = new Dictionary<string, string>();
+            favoriteFoods["Alex"] = "hot dogs";
+            favoriteFoods["A'ja"] = "pizza";
+            favoriteFoods["Jules"] = "falafel";
+            favoriteFoods["Naima"] = "spaghetti";
+            string name;
+            while ((name = Console.ReadLine()) != "")
+            {
+                if (favoriteFoods.ContainsKey(name))
+                    Console.WriteLine($"{name}'s favorite food is {favoriteFoods[name]}");
+                else
+                    Console.WriteLine($"I don't know {name}'s favorite food");
+            }
+next:
+            Console.WriteLine("\n-- Dictionary of NY Yankees baseball liders -- ");
+            Dictionary<int, RetiredPlayer> retiredYankees = new Dictionary<int, RetiredPlayer>() {
+                {3, new RetiredPlayer("Babe Ruth", 1948)},
+                {4, new RetiredPlayer("Lou Gehrig", 1939)},
+                {5, new RetiredPlayer("Joe DiMaggio", 1952)},
+                {7, new RetiredPlayer("Mickey Mantle", 1969)},
+                {8, new RetiredPlayer("Yogi Berra", 1972)},
+                {10, new RetiredPlayer("Phil Rizzuto", 1985)},
+                {23, new RetiredPlayer("Don Mattingly", 1997)},
+                {42, new RetiredPlayer("Jackie Robinson", 1993)},
+                {44, new RetiredPlayer("Reggie Jackson", 1993)},
+                };
+            foreach (int jerseyNumber in retiredYankees.Keys)
+            {
+                RetiredPlayer player = retiredYankees[jerseyNumber];
+                Console.WriteLine($"{player.Name} #{jerseyNumber} retired in {player.YearRetired}");
+            }
 
             Console.WriteLine("Type any key to close!");
             Console.ReadKey();
@@ -33,7 +75,8 @@ namespace CshHFDucks
             {
                 Console.WriteLine($"{duck.Size} inch {duck.Kind}");
             }
-            Console.WriteLine();
+            
+            Console.WriteLine("\n-- IEnumerator<> -- ");
             IEnumerator<Duck> enumerator = ducks.GetEnumerator();
             while (enumerator.MoveNext())
             {
@@ -81,6 +124,17 @@ namespace CshHFDucks
             {
                 bird.Fly(destination);
             }
+        }
+    }
+
+    class RetiredPlayer
+    {
+        public string Name { get; private set; }
+        public int YearRetired { get; private set; }
+        public RetiredPlayer(string player, int yearRetired)
+        {
+            Name = player;
+            YearRetired = yearRetired;
         }
     }
 }
