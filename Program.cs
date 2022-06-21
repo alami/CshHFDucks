@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CshHFDucks
 {
@@ -17,6 +18,12 @@ namespace CshHFDucks
                 };
             ducks.Sort();
             PrintDucks(ducks);
+
+            Console.WriteLine();
+            //Bird.FlyAway(ducks, "Minnesota");
+            IEnumerable<Bird> upcastDucks = ducks;
+            Bird.FlyAway(upcastDucks.ToList(), "Minnesota");
+
             Console.WriteLine("Type any key to close!");
             Console.ReadKey();
         }
@@ -37,7 +44,7 @@ namespace CshHFDucks
 
         }
     }
-    class Duck : IComparable<Duck>
+    class Duck : Bird, IComparable<Duck>
     {
         public int Size  {get; set; }
         public KindOfDuck Kind { get; set; }
@@ -56,5 +63,24 @@ namespace CshHFDucks
         Mallard,
         Muscovy,
         Loon,
+    }
+    class Bird
+    {
+        public string Name { get; set; }
+        public virtual void Fly(string destination)
+        {
+            Console.WriteLine($"{this} is flying to {destination}");
+        }
+        public override string ToString()
+        {
+            return $"A bird named {Name}";
+        }
+        public static void FlyAway(List<Bird> flock, string destination)
+        {
+            foreach (Bird bird in flock)
+            {
+                bird.Fly(destination);
+            }
+        }
     }
 }
