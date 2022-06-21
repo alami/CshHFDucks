@@ -26,6 +26,15 @@ namespace CshHFDucks
             {
                 Console.WriteLine($"{duck.Size} inch {duck.Kind}");
             }
+            Console.WriteLine();
+            IEnumerator<Duck> enumerator = ducks.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                Duck duck = enumerator.Current;
+                Console.WriteLine(duck);
+            }
+            if (enumerator is IDisposable disposable) disposable.Dispose();
+
         }
     }
     class Duck : IComparable<Duck>
