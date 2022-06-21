@@ -37,6 +37,10 @@ namespace CshHFDucks
             else if (this.Size < duckToCompare.Size) return -1;
             else return 0;
         }
+        public override string ToString()
+        {
+            return $"A {Size} inch {Kind}";
+        }
     }
     enum KindOfDuck
     {
